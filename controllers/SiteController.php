@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -85,7 +86,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $model->password = '';
+      //  $model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -138,7 +139,9 @@ class SiteController extends Controller
             if ($model->validate()) {
                 // form inputs are valid, do something here
                 $model->password_hash=\Yii::$app->getSecurity()->generatePasswordHash($model->password_hash);
+                $model->date_created=new Expression('NOW()');
                 $model->save(false);
+                \Yii::$app->session->setFlash('message', 'Registration succesful, You can now login!!');
                 return $this->redirect(['index']);
             }
         }

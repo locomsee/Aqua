@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 
+use yii\bootstrap\Button;
 use yii\helpers\Html;
 
 $this->title = 'Aqua Products Available';
@@ -14,82 +15,82 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="w3-container w3-teal">
         <h1><?= Html::encode($this->title) ?></h1>
     </div>
-    <?php
 
-   // echo var_dump($model); exit;
+    <div class="items">
+        <button type="button" class="btn btn-primary">
+            Items in Cart <span class="badge badge-light">0</span>
+        </button>
 
-
-//        foreach ($model  as $value) {
-//           $iu= '<div class="w3-row-padding w3-margin-top">';
-//      $iu= ' <div class="w3-third">';
-//          $iu='  <div class="w3-card">';
-//            $iu='   <img src="Aquaproducts/1.png" style="width:100%">';
-//            $iu=' <div class="w3-container">';
-//        echo    ' <h5> '. $value["product_code"];'</h5>';
-//        }
-//    ?>
-
-
-
-
+    </div>
     <div class="w3-row-padding w3-margin-top">
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/1.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Vernazza</h5>
-                </div>
-            </div>
-        </div>
+        <?php foreach ($model as  $value) {//Opening foreach.
+           // var_dump(dirname(\Yii::$app->request->scriptFile)); exit;
+            $imagelocation = dirname(\Yii::$app->request->scriptFile) . '/'. 'Aquaproducts/';
+              // var_dump($model); exit;
 
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/2.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Monterosso</h5>
-                </div>
-            </div>
-        </div>
+            ?>
 
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/3.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Vernazza</h5>
+            <div class="w3-third">
+                <div class="w3-card">
+<!--                    <img src="--><?//= $imagelocation.$value['product_location']?><!--" style="width:100%">-->
+                    <?= Html::img('@web/Aquaproducts/'.$value['product_location']);?>
+                    <div class="w3-container">
+
+                        <h5 id="name"><span class="label label-primary" style="color:white"><?= $value['product_name']?></span></h5>
+                        <h5 id="price"><span class="label label-warning" style="color:blue"><?= $value['product_price']?></span></h5>
+
+                        <?=  Button::widget([
+                            'label' => 'Add to Cart',
+                            'id'=>'addcart',
+                            'options' => ['class' => 'btn btn-danger'],
+                        ]);?>
+                    </div>
+
+
                 </div>
             </div>
-        </div>
+        <?php }//closing foreach?>
+    </div><!-- .w3-row-padding -->
+
     </div>
 
-    <div class="w3-row-padding w3-margin-top">
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/4.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Manarola</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/5.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Corniglia</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="w3-third">
-            <div class="w3-card">
-                <img src="Aquaproducts/1.png" style="width:100%">
-                <div class="w3-container">
-                    <h5>Riomaggiore</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-?>
 
 </div>
+
+<style>
+    .items{
+        position: absolute;
+        right: 105px;
+    }
+
+
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
+
+<script>
+    $(document).ready(function () {
+        $('#addcart').click(function (e) {
+
+           // alert('You clicked me');
+
+
+            e.preventDefault();
+            var name=$('#name').val();
+            var price=$('#price').val();
+
+            $.ajax({
+                method: 'POST',
+                url: '<?php echo Yii::$app->request->baseUrl. '/products/savecart' ?>',
+                data: "product_name=" + name+ "&product_price=" + price,
+                success: function(data) {
+                    alert("success");
+                }
+
+            })
+
+
+        });
+        
+    });
+</script>
+

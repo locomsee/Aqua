@@ -37,7 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="w3-container">
 
                         <h5 id="name"><span class="label label-primary" style="color:white"><?= $value['product_name']?></span></h5>
-                        <h5 id="price"><span class="label label-warning" style="color:blue"><?= $value['product_price']?></span></h5>
+                        <h5 id="price"><span class="label label-warning" style="color:blue"><?= $format='Ksh. '. $value['product_price']?></span></h5>
+                        <h5 id="code" hidden><span class="label label-warning" style="color:blue"><?= $value['product_code']?></span></h5>
+                        <h5 id="size" hidden><span class="label label-warning" style="color:blue"><?= $value['product_size']?></span></h5>
 
                         <?=  Button::widget([
                             'label' => 'Add to Cart',

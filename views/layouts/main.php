@@ -42,7 +42,7 @@ AppAsset::register($this);
     ];
        if(Yii::$app->user->isGuest ) {
 
-      array_push($navitem, ['label' => 'Login', 'url' => ['/site/login']], ['label' => 'Register', 'url' => ['/site/register']]);
+      array_push($navitem, ['label' => 'Login', 'url' => ['login']], ['label' => 'Register', 'url' => ['/site/register']]);
          }else{
         array_push($navitem,    '<li>'
             . Html::beginForm(['/site/logout'], 'post')

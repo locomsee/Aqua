@@ -43,19 +43,18 @@ $config = [
             ],
         ],
         'db' => $db,
-//        'urlManager' => [
-//            'class' => 'yii\web\UrlManager',
-//            'enablePrettyUrl' => true,
-//            'showScriptName' => false,
-//            'rules' => [
-//                '<action:(index|login|logout)>' => 'site/<action>',
-//                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-//                '<controller:\w+>/<id:\d+>/<action:\w+>' => '<controller>/<action>',
-//                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-//
-//                '' => 'site/index'
-//            ],
-//        ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                '<action:(index|login|logout)>' => 'site/<action>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<id:\d+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '' => 'site/index'
+            ],
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

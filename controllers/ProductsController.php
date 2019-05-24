@@ -62,7 +62,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function actionSaveCart()
+    public function actionSavecart()
     {
         $model = new CartProducts();
         $request = \Yii::$app->getRequest();

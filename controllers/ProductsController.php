@@ -65,10 +65,11 @@ class ProductsController extends Controller
     public function actionSavecart()
     {
         $model = new CartProducts();
-        $request = \Yii::$app->getRequest();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            $model->attributes=$request->post();
 
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            $model->user_id=Yii::$app->user->identity->user_id;
+
+           $model->save(false);
 
             \Yii::$app->response->format = Response::FORMAT_JSON;
             //return ['success'=>'Response'];

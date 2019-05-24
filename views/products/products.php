@@ -75,18 +75,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             e.preventDefault();
-            var name=$('#name').val();
-            var price=$('#price').val();
+            var name=$('#name').text();
+            var price=$('#price').text();
 
             $.ajax({
                 method: 'POST',
                 url: '<?php echo Yii::$app->request->baseUrl. '/products/savecart' ?>',
                 data: "product_name=" + name+ "&product_price=" + price,
                 success: function(data) {
-                    alert("success");
+                    alert("Name of product "+name+" and "+price);
                 }
 
-            })
+            });
 
 
         });

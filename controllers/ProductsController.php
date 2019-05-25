@@ -30,6 +30,11 @@ class ProductsController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['countcart'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
 
                 ],
             ],
@@ -65,16 +70,41 @@ class ProductsController extends Controller
     public function actionSavecart()
     {
         $model = new CartProducts();
-
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        try{
+        if (Yii::$app->request->isAjax) {
             $model->user_id=Yii::$app->user->identity->user_id;
+            $model->product_id=$_POST['product_id'];
+            $model->product_name=$_POST['product_name'];
+            $model->product_price=$_POST['product_price'];
+            $model->product_code=$_POST['product_code'];
+            $model->product_size=$_POST['product_size'];
+            $model->save(false);
+            $transaction->commit();
 
-           $model->save(false);
+         echo  "Data inserted";
+        }}
+        catch(\Exception $e) {
 
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-            //return ['success'=>'Response'];
-            return ['success' =>$model->save()];
+            $transaction->rollBack();
+
+            throw $e;
+
         }
+    }
+    public function actionCountcart(){
+
+        if (Yii::$app->request->isAjax) {
+            $user_id = Yii::$app->user->identity->user_id;
+            $model = new CartProducts();
+            $result = $model::find()->where(['user_id' => $user_id])->count();
+
+
+            return $result;
+
+        }
+
     }
 
 }

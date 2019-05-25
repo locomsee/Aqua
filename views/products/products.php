@@ -17,25 +17,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="items">
-        <button type="button" class="btn btn-primary">
-            Items in Cart <span class="badge badge-light">0</span>
+        <button  type="button" class="btn btn-primary">
+            Items in Cart <span class="badge badge-light" id="CartNo">0</span>
         </button>
 
     </div>
     <div class="w3-row-padding w3-margin-top">
         <?php foreach ($model as  $value) {//Opening foreach.
-           // var_dump(dirname(\Yii::$app->request->scriptFile)); exit;
-            $imagelocation = dirname(\Yii::$app->request->scriptFile) . '/'. 'Aquaproducts/';
-              // var_dump($model); exit;
 
-            ?>
+                     ?>
 
             <div class="w3-third">
                 <div class="w3-card">
-<!--                    <img src="--><?//= $imagelocation.$value['product_location']?><!--" style="width:100%">-->
+
                     <?= Html::img('@web/Aquaproducts/'.$value['product_location']);?>
                     <div class="w3-container">
-
+                        <h5 id="id" hidden><span class="label label-primary" style="color:white"><?= $value['product_id']?></span></h5>
                         <h5 id="name"><span class="label label-primary" style="color:white"><?= $value['product_name']?></span></h5>
                         <h5 id="price"><span class="label label-warning" style="color:blue"><?= $format='Ksh. '. $value['product_price']?></span></h5>
                         <h5 id="code" hidden><span class="label label-warning" style="color:blue"><?= $value['product_code']?></span></h5>
@@ -67,32 +64,62 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </style>
+
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
 
 <script>
-    $(document).ready(function () {
-        $('#addcart').click(function (e) {
-
-           // alert('You clicked me');
 
 
-            e.preventDefault();
-            var name=$('#name').text();
-            var price=$('#price').text();
 
+        //Add cart items to database
+    $('#addcart').click(function () {
+
+           var cripe=$('#price').text();
+           var price=cripe.replace('Ksh. ',' ');
             $.ajax({
                 method: 'POST',
                 url: '<?php echo Yii::$app->request->baseUrl. '/products/savecart' ?>',
-                data: "product_name=" + name+ "&product_price=" + price,
+                data:{product_id:$('#id').text(), product_name:$('#name').text() , product_price:price, product_code:$('#code').text(),product_size:$('#size').text()},
                 success: function(data) {
-                    alert("Name of product "+name+" and "+price);
-                }
+                    alert(data);
+                },
 
             });
-
-
         });
-        
-    });
+
+    //    $.ajax({
+    //        method: 'GET',
+    //        url: '<?php //echo Yii::$app->request->baseUrl. '/products/countcart' ?>//',
+    //    success: function (data) {
+    //        //$('#CartNo').html(data);
+    //        alert('It has worked');
+    //    },   // $('#CartNo').text(data);
+    //}).done(function (data) {
+    //        $('#CartNo').html(data);
+    //
+    //    });
+
+
 </script>
+
+<script>
+
+
+    $.ajax({
+        method: 'GET',
+        url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
+        success: function (data) {
+
+            alert('It has worked');
+        },
+    }).done(function (data) {
+        $('#CartNo').html(data);
+
+    });
+
+
+</script>
+
+
 

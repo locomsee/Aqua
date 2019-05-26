@@ -38,13 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5 id="code" hidden><span class="label label-warning" style="color:blue"><?= $value['product_code']?></span></h5>
                         <h5 id="size" hidden><span class="label label-warning" style="color:blue"><?= $value['product_size']?></span></h5>
 
+                    <div class="eset">
                         <?=  Button::widget([
-                            'label' => 'Add to Cart',
-                            'id'=>'addcart',
+                            'label' => 'Add Cart',
+                               'id'=>'haha',
                             'options' => ['class' => 'btn btn-danger'],
                         ]);?>
                     </div>
-
+                    </div>
 
                 </div>
             </div>
@@ -70,10 +71,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
 
-
-
+    $(document).ready(function () {
         //Add cart items to database
-    $('#addcart').click(function () {
+    $('.eset').click(function () {
 
            var cripe=$('#price').text();
            var price=cripe.replace('Ksh. ',' ');
@@ -86,40 +86,37 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
 
             });
+        $.ajax({
+            method: 'GET',
+            url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
+            success: function (data) {
+
+               // alert('It has worked');
+            },
+        }).done(function (data) {
+            $('#CartNo').html(data);
+
         });
 
-    //    $.ajax({
-    //        method: 'GET',
-    //        url: '<?php //echo Yii::$app->request->baseUrl. '/products/countcart' ?>//',
-    //    success: function (data) {
-    //        //$('#CartNo').html(data);
-    //        alert('It has worked');
-    //    },   // $('#CartNo').text(data);
-    //}).done(function (data) {
-    //        $('#CartNo').html(data);
-    //
-    //    });
+    });
 
+    });
 
 </script>
-
 <script>
-
-
     $.ajax({
         method: 'GET',
         url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
         success: function (data) {
-
-            alert('It has worked');
+           // alert('It has worked');
         },
     }).done(function (data) {
         $('#CartNo').html(data);
 
     });
-
-
 </script>
+
+
 
 
 

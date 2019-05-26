@@ -70,10 +70,16 @@ class ProductsController extends Controller
     public function actionSavecart()
     {
         $model = new CartProducts();
+
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         try{
-        if (Yii::$app->request->isAjax) {
+        if (Yii::$app->request->isAjax ) {
+            $validate=$model::find()->where(['product_id'=>$_POST['product_id']])->all();
+            if($validate) {
+                echo 'Item already added to cart';
+                exit;
+            }else
             $model->user_id=Yii::$app->user->identity->user_id;
             $model->product_id=$_POST['product_id'];
             $model->product_name=$_POST['product_name'];

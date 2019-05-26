@@ -77,7 +77,7 @@ class ProductsController extends Controller
         if (Yii::$app->request->isAjax ) {
             $validate=$model::find()->where(['product_id'=>$_POST['product_id']])->all();
             if($validate) {
-                echo 'Item already added to cart';
+                echo 'Item already added to cart: ID=> '.$_POST['product_id'];
                 exit;
             }else
             $model->user_id=Yii::$app->user->identity->user_id;

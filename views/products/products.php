@@ -90,7 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
             method: 'GET',
             url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
             success: function (data) {
-
                // alert('It has worked');
             },
         }).done(function (data) {

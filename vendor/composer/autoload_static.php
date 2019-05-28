@@ -38,6 +38,7 @@ class ComposerStaticInit0d27b001e3fd502f2b82ff43dc1ac92c
         ),
         'k' => 
         array (
+            'kartik\\grid\\' => 12,
             'kartik\\form\\' => 12,
             'kartik\\dialog\\' => 14,
             'kartik\\detail\\' => 14,
@@ -133,6 +134,10 @@ class ComposerStaticInit0d27b001e3fd502f2b82ff43dc1ac92c
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'kartik\\grid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-grid/src',
         ),
         'kartik\\form\\' => 
         array (

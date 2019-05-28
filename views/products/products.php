@@ -22,29 +22,33 @@ $this->params['breadcrumbs'][] = $this->title;
         </button>
 
     </div>
+    <br><br><br>
+    <div class="check">
+        <button  type="button" class="btn btn-primary">
+            Check Out        </button>
+    </div>
     <div class="w3-row-padding w3-margin-top">
         <?php foreach ($model as  $value) {//Opening foreach.
 
-                     ?>
+            ?>
 
             <div class="w3-third">
                 <div class="w3-card">
 
                     <?= Html::img('@web/Aquaproducts/'.$value['product_location']);?>
                     <div class="w3-container">
-                        <h5 id="id" hidden><span class="label label-primary" style="color:white"><?= $value['product_id']?></span></h5>
-                        <h5 id="name"><span class="label label-primary" style="color:white"><?= $value['product_name']?></span></h5>
-                        <h5 id="price"><span class="label label-warning" style="color:blue"><?= $format='Ksh. '. $value['product_price']?></span></h5>
-                        <h5 id="code" hidden><span class="label label-warning" style="color:blue"><?= $value['product_code']?></span></h5>
-                        <h5 id="size" hidden><span class="label label-warning" style="color:blue"><?= $value['product_size']?></span></h5>
-
-                    <div class="eset">
-                        <?=  Button::widget([
-                            'label' => 'Add Cart',
-                               'id'=>'haha',
-                            'options' => ['class' => 'btn btn-danger'],
-                        ]);?>
-                    </div>
+                        <h5 class="id" ><span class="label label-primary" style="color:white"><?= $value['product_id']?></span></h5>
+                        <h5 class="name"><span class="label label-primary" style="color:white"><?= $value['product_name']?></span></h5>
+                        <h5 class="price"><span class="label label-warning" style="color:blue"><?= $format='Ksh. '. $value['product_price']?></span></h5>
+                        <h5 class="code" hidden><span class="label label-warning" style="color:blue"><?= $value['product_code']?></span></h5>
+                        <h5 class="size" hidden><span class="label label-warning" style="color:blue"><?= $value['product_size']?></span></h5>
+                        <div class="eset">
+                            <?=  Button::widget([
+                                'label' => 'Add Cart',
+                                'id'=>'haha',
+                                'options' => ['class' => 'btn btn-danger'],
+                            ]);?>
+                        </div>
                     </div>
 
                 </div>
@@ -52,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php }//closing foreach?>
     </div><!-- .w3-row-padding -->
 
-    </div>
+</div>
 
 
 </div>
@@ -62,57 +66,61 @@ $this->params['breadcrumbs'][] = $this->title;
         position: absolute;
         right: 105px;
     }
-
+    .check{
+        position: absolute;
+        right: 105px;
+    }
 
 </style>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>
-
 <script>
-
     $(document).ready(function () {
         //Add cart items to database
-    $('.eset').click(function () {
-
-           var cripe=$('#price').text();
-           var price=cripe.replace('Ksh. ',' ');
+        $('.eset').click(function () {
+            var cripe = $(this).parent().find('.price').text();
+            var price=cripe.replace('Ksh. ',' ');
             $.ajax({
                 method: 'POST',
                 url: '<?php echo Yii::$app->request->baseUrl. '/products/savecart' ?>',
-                data:{product_id:$('#id').text(), product_name:$('#name').text() , product_price:price, product_code:$('#code').text(),product_size:$('#size').text()},
+                data:{product_id:$(this).parent().find('.id').text(), product_name:$(this).parent().find('.name').text(), product_price:price, product_code:$(this).parent().find('.code').text(),product_size:$(this).parent().find('.size').text()},
                 success: function(data) {
                     alert(data);
                 },
-
             });
-        $.ajax({
-            method: 'GET',
-            url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
-            success: function (data) {
-               // alert('It has worked');
-            },
-        }).done(function (data) {
-            $('#CartNo').html(data);
-
+            $.ajax({
+                method: 'GET',
+                url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
+                success: function (data) {
+                    if(data >= 1){
+                        $('.check').show()
+                    }else
+                        $('.check').hide()
+                },
+            }).done(function (data) {
+                $('#CartNo').html(data);
+            });
         });
-
     });
-
-    });
-
 </script>
+
 <script>
+
     $.ajax({
         method: 'GET',
         url: '<?php echo Yii::$app->request->baseUrl. '/products/countcart' ?>',
         success: function (data) {
-           // alert('It has worked');
+            // alert('It has worked');
         },
     }).done(function (data) {
         $('#CartNo').html(data);
-
+        if(data >= 1){
+            $('.check').show()
+        }else
+            $('.check').hide()
     });
+
 </script>
 
 

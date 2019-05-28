@@ -76,6 +76,7 @@ class ProductsController extends Controller
         try{
         if (Yii::$app->request->isAjax ) {
             $validate=$model::find()->where(['product_id'=>$_POST['product_id']])->all();
+          //  var_dump($_POST['product_id']);die;
             if($validate) {
                 echo 'Item already added to cart: ID=> '.$_POST['product_id'];
                 exit;
@@ -92,9 +93,7 @@ class ProductsController extends Controller
          echo  "Data inserted";
         }}
         catch(\Exception $e) {
-
             $transaction->rollBack();
-
             throw $e;
 
         }
@@ -112,5 +111,7 @@ class ProductsController extends Controller
         }
 
     }
+
+
 
 }

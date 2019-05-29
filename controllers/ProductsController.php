@@ -104,7 +104,7 @@ class ProductsController extends Controller
             $user_id = Yii::$app->user->identity->user_id;
             $model = new CartProducts();
             $result = $model::find()->where(['user_id' => $user_id])->count();
-
+            $model=new CartProducts();
 
             return $result;
 

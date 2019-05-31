@@ -1,8 +1,11 @@
 <?php
 
+use app\helpers\MyKartikGridView;
 use kartik\form\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+rmrevin\yii\fontawesome\AssetBundle::register($this);
+
 
 $this->title = 'Check-Out Items';
 ?>
@@ -10,22 +13,38 @@ $this->title = 'Check-Out Items';
 
 <div class="row">
 
+      <?php if (Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+<!--            <h4><i class="icon fa fa-check"></i>Saved!</h4>-->
+            <?= Yii::$app->session->getFlash('success') ?>
+        </div>
+    <?php endif; ?>
+
+
+    <?php if (Yii::$app->session->hasFlash('error')): ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+<!--            <h4><i class="icon fa fa-check"></i>Saved!</h4>-->
+            <?= Yii::$app->session->getFlash('error') ?>
+        </div>
+    <?php endif; ?>
+
     <div class="col-md-10">
 
-        <?= \kartik\grid\GridView::widget([
+        <?= app\helpers\MyKartikGridView::widget([
             'dataProvider' => $dataProvider,
-            'searchFieldPlaceholder' => 'Search By Agrodealer code',
+             'searchField' =>false,
             'createButton' => [
                 'visible' => true,
-                'label' => 'Submit', 'url' => Url::to(['order']), 'modal' => false,
-
+                'label' => 'Order Items','data-toggle'=>'modal','url' => Url::to(['products/orderitems','user_id'=>\Yii::$app->user->identity->user_id ]), 'modal' => true,
             ],
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn',
                 ],
                 [
-                    'label' => 'User Name',
-                    'value' => 'email_number',
+                    'label' => 'Email Number',
+                    'value' => 'user.email_number',
                 ],
                 [
                     'label' => 'Product Name',
@@ -37,30 +56,45 @@ $this->title = 'Check-Out Items';
 
                 ],
                 [
-                    'label' => 'Product Price',
-                    'value' => 'Product size',
+                    'label' => 'Product Price Per Item',
+                    'value' => 'product_price',
+                ],
+                [
+                    'class'=>'kartik\grid\EditableColumn',
+                    'attribute'=>'quantity',
+                    'editableOptions'=>[
+                        'header'=>'Buy Amount',
+                        'inputType'=>\kartik\editable\Editable::INPUT_SPIN,
+                        'options'=>['pluginOptions'=>['min'=>0, 'max'=>5000]]
+                    ],
+                    'hAlign'=>'right',
+                    'vAlign'=>'middle',
+                    'width'=>'100px',
+                    'format'=>['integer'],
+                    'pageSummary'=>true
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{DeleteUser}',//{delete}
+                    'template' => '{detailbank}<br>{DeleteUser}',//{delete}
                     'visibleButtons' => [
                         'update' =>true,
                         'Delete'=>false,
                     ],
                     'buttons' => [
+                        'detailbank' => function ($url, $model) {
 
-                        'DeleteItem' => function ($url, $model) {
-                            /* @var $model \app\models\Tblscdistrictbanks */
-                            $url = Url::to(['products/deleteitem', 'id' => $model->cart_id]);
-                            return Html::a('<span class="fa fa-pencil"></span> Remove ', $url, [
-                                'title' => 'Remove Item',
+                            $url = Url::to(['products/deleteitem', 'product_id' => $model->product_id]);
+                            return Html::a('<i class="fa fa-trash-o" aria-hidden="true"></i> Remove Item', $url, [
+                                'title' => 'Finalize',
                                 'class' => 'always_open_link',
+                                'data' => [
+                                    'confirm' => 'Are you sure you want to remove this item?',
+                                    'method' => 'post',
+                                ]
                             ]);
                         },
 
-
                     ],],
-
 
             ],
 

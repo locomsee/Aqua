@@ -4,11 +4,27 @@
 
 use yii\bootstrap\Button;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = 'Aqua Products Available';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+    <div class="alert alert-success alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <!--            <h4><i class="icon fa fa-check"></i>Saved!</h4>-->
+        <?= Yii::$app->session->getFlash('success') ?>
+    </div>
+<?php endif; ?>
 
+
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <!--            <h4><i class="icon fa fa-check"></i>Saved!</h4>-->
+        <?= Yii::$app->session->getFlash('error') ?>
+    </div>
+<?php endif; ?>
 <div class="site-products">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -24,8 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <br><br><br>
     <div class="check">
-        <button  type="button" class="btn btn-primary">
-            Check Out        </button>
+        <?= Html::a('View Items In Cart', ['products/cartitems'], ['class'=>'btn btn-primary']) ?>
     </div>
     <div class="w3-row-padding w3-margin-top">
         <?php foreach ($model as  $value) {//Opening foreach.

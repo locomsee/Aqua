@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\MyActiveRecord;
 use Yii;
 
 /**
@@ -14,10 +15,12 @@ use Yii;
  * @property string $product_name
  * @property string $product_size
  * @property int $product_price
+ * @property int $quantity
  *
  * @property Users $user
+ * @property OrderProducts[] $orderProducts
  */
-class CartProducts extends \yii\db\ActiveRecord
+class CartProducts extends MyActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -34,7 +37,7 @@ class CartProducts extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'product_id', 'product_code', 'product_name', 'product_size', 'product_price'], 'required'],
-            [['user_id', 'product_id', 'product_price'], 'integer'],
+            [['user_id', 'product_id', 'product_price', 'quantity'], 'integer'],
             [['product_code'], 'string', 'max' => 100],
             [['product_name'], 'string', 'max' => 20],
             [['product_size'], 'string', 'max' => 10],
@@ -55,6 +58,7 @@ class CartProducts extends \yii\db\ActiveRecord
             'product_name' => 'Product Name',
             'product_size' => 'Product Size',
             'product_price' => 'Product Price',
+            'quantity' => 'Quantity',
         ];
     }
 
@@ -64,5 +68,26 @@ class CartProducts extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderProducts()
+    {
+        return $this->hasMany(OrderProducts::className(), ['user_id' => 'cart_id']);
+    }
+
+    public function getQuantityy(){
+
+        if($this->orderProducts){
+            $frt=$this->orderProducts->quantity;
+            $fre=$this->orderProducts->product_price;
+
+            $final=$frt*$fre;
+
+            return $final;
+
+        }
     }
 }

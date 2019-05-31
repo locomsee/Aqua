@@ -20,7 +20,12 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "kartik-v/yii2-detail-view": "dev-master",
         "yiisoft/yii2-jui": "^2.0",
-        "kartik-v/yii2-grid": "dev-master"
+        "kartik-v/yii2-grid": "dev-master",
+        "kartik-v/yii2-mpdf": "dev-master",
+        "rmrevin/yii2-fontawesome": "2.10.*",
+        "kartik-v/yii2-widget-select2": "dev-master",
+        "kartik-v/yii2-editable": "@dev",
+        "kartik-v/yii2-widget-touchspin": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

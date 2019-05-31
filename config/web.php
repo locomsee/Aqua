@@ -1,5 +1,5 @@
 <?php
-
+use kartik\mpdf\Pdf;
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -26,6 +26,25 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
+        ],
+        'pdf' => [
+            'class' => Pdf::classname(),
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_DOWNLOAD,
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+            // set mPDF properties on the fly
+            'options' => ['title' => 'REPORT'],
+            // call mPDF methods on the fly
+            'methods' => [
+                'SetHeader'=>['ZISPIS'],
+                'SetFooter'=>['{PAGENO}'],
+            ]
+
+            // refer settings section for all configuration options
+
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

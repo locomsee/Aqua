@@ -151,4 +151,10 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    public function renderModal(string $view, array $params)
+    {
+        $this->layout = '/main-modal';
+
+        return parent::render($view, $params);
+    }
 }

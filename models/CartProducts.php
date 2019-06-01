@@ -18,7 +18,6 @@ use Yii;
  * @property int $quantity
  *
  * @property Users $user
- * @property OrderProducts[] $orderProducts
  */
 class CartProducts extends MyActiveRecord
 {
@@ -68,26 +67,5 @@ class CartProducts extends MyActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrderProducts()
-    {
-        return $this->hasMany(OrderProducts::className(), ['user_id' => 'cart_id']);
-    }
-
-    public function getQuantityy(){
-
-        if($this->orderProducts){
-            $frt=$this->orderProducts->quantity;
-            $fre=$this->orderProducts->product_price;
-
-            $final=$frt*$fre;
-
-            return $final;
-
-        }
     }
 }

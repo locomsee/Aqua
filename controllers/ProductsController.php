@@ -218,7 +218,14 @@ class ProductsController extends  SiteController
 
     }
     public function actionOrderitems($user_id){
-        $model=CartProducts::find()->where(['user_id'=>$user_id])->all();
+        $model=CartProducts::find()->where(['user_id'=>$user_id])->asArray()->all();
+        $final_price=0;
+
+            foreach ($model as $fr => $value){
+               // var_dump(count($model)); exit;
+                $final_price +=$value['product_price']*$value['quantity'];
+            }
+
         $final=new OrderProducts();
         if($model){
             $connection= \Yii::$app->db;
@@ -226,23 +233,28 @@ class ProductsController extends  SiteController
             try{
            if($final->load(\Yii::$app->request->post())){
 
-               $final->product_code=$model->product_code;
-               $final->product_name=$model->product_name;
-               $final->product_size=$model->product_size;
-               $final->product_price=$model->product_price;
+               foreach ($model as $fr => $value){
+               $final->product_id=$value['product_id'];
+              // $final->county_name=$_POST['Location']['county_name'];
+               $final->product_code=$value['product_code'];
+               $final->product_name=$value['product_name'];
+               $final->product_size=$value['product_size'];
+               $final->quantity=$value['quantity'];
+               $final->product_price=$final_price;
+               $final->user_id=$user_id;
                $final->save(false);
                $transaction->commit();
-               return $this->redirect(['products/products']);
+               return $this->redirect(['products/products']);}
 
            }} Catch (\Exception $e){
                 $transaction->rollBack();
-                \Yii::$app->session->setFlash('error', 'Abort Abort!!! '. $e );
+                \Yii::$app->session->setFlash('error', 'Abort Abort!!! Immediate evac Co-ordinates Alpha 10 Bravo 50 Tango Down'. $e );
                 return $this->redirect(['products/cartitems']);
             }
 
         }
 
-   return $this->render('orderitems',['model'=>$final]);
+   return $this->render('orderitems',['model'=>$final,'dr'=>$final_price]);
 
     }
 

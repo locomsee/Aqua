@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\MyActiveRecord;
 use Yii;
 
 /**
@@ -20,10 +21,9 @@ use Yii;
  * @property int $user_id
  *
  * @property Location $countyName
- * @property Users $user
- * @property CartProducts $user0
+ * @property CartProducts $user
  */
-class OrderProducts extends \yii\db\ActiveRecord
+class OrderProducts extends MyActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -45,8 +45,7 @@ class OrderProducts extends \yii\db\ActiveRecord
             [['product_name', 'location_description'], 'string', 'max' => 20],
             [['product_size'], 'string', 'max' => 10],
             [['county_name'], 'exist', 'skipOnError' => true, 'targetClass' => Location::className(), 'targetAttribute' => ['county_name' => 'county_name']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'user_id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => CartProducts::className(), 'targetAttribute' => ['user_id' => 'cart_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => CartProducts::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
 
@@ -83,27 +82,6 @@ class OrderProducts extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsert()
-    {
-        return $this->hasOne(CartProducts::className(), ['cart_id' => 'user_id']);
-    }
-
-    public function getQuantityy(){
-
-        if($this->usert){
-            $frt=$this->usert->quantity;
-            $fre=$this->usert->product_price;
-
-            $final=$frt*$fre;
-           var_dump($final); exit;
-            return $final;
-
-        }
+        return $this->hasOne(CartProducts::className(), ['user_id' => 'user_id']);
     }
 }

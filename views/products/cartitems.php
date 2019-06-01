@@ -63,13 +63,13 @@ $this->title = 'Check-Out Items';
                     'class'=>'kartik\grid\EditableColumn',
                     'attribute'=>'quantity',
                     'editableOptions'=>[
-                        'header'=>'Buy Amount',
+                        'header'=>'Add number of items to order',
                         'inputType'=>\kartik\editable\Editable::INPUT_SPIN,
                         'options'=>['pluginOptions'=>['min'=>0, 'max'=>5000]]
                     ],
                     'hAlign'=>'right',
                     'vAlign'=>'middle',
-                    'width'=>'100px',
+                    'width'=>'50px',
                     'format'=>['integer'],
                     'pageSummary'=>true
                 ],

@@ -32,7 +32,8 @@ $this->title = 'Final order details';
 
         <div class="modal-dialog">
             <div class="md-form mb-3">
-                <?= $form->field($model, 'quantityy')->textInput(['maxlength' => true]) ?>
+                <label for="finprice">Final Price: Ksh. <?= $dr ?></label>
+
             </div>
 
             <div class="md-form mb-3">
@@ -41,9 +42,13 @@ $this->title = 'Final order details';
             <br>
             <div class="md-form mb-3">
                 <?= $form->field($model, 'county_name')->dropDownList(
-                    ArrayHelper::map(Location::find()->all(),'county_id','county_name'),
+                    ArrayHelper::map(Location::find()->select(['county_id','county_name'])->all(),'county_name','county_name'),
                     ['prompt' => 'Select']
                 ) ?>
+            </div>
+            <br>
+            <div class="md-form mb-3">
+                <?= $form->field($model, 'location_description')->textarea(['maxlength' => true]) ?>
             </div>
 
 
